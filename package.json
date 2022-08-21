@@ -2,6 +2,21 @@
   "name": "under-the-sun",
   "version": "1.0.0",
   "description": "A nothing-new-under-the-sun testing framework.",
+  "keywords": [
+    "test",
+    "runner",
+    "testing",
+    "uts",
+    "fast",
+    "simple",
+    "library",
+    "async",
+    "typescript",
+    "alternative",
+    "uvu",
+    "ava",
+    "jest"
+  ],
   "main": "lib/index.js",
   "types": "lib/index.d.ts",
   "bin": {
