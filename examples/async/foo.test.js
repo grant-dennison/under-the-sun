@@ -15,9 +15,9 @@ test("read file > bad", async () => {
 // In practice, you might not initialize tests often in a loop like this (though you could!).
 // This is just demonstrating that long-running tests aren't necessarily additive in total test runtime
 // unlike some competitors (looking at you uvu).
-for (let i = 0; i < 100; i++) {
+for (let i = 0; i < 10000; i++) {
   test(`Artificially long test ${i}`, async () => {
-    await new Promise((resolve) => setTimeout(resolve, 1000));
+    await new Promise((resolve) => setTimeout(resolve, 100));
     assert.notStrictEqual(i, 42, "It is not the answer");
   });
 }
