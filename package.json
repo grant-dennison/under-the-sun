@@ -3,9 +3,29 @@
   "version": "1.0.0",
   "description": "A nothing-new-under-the-sun testing framework.",
   "main": "lib/index.js",
+  "types": "lib/index.d.ts",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "build": "run-p build:cli build:lib",
+    "build:cli": "esbuild src/cli.ts --bundle --platform=node --outfile=lib/cli.js",
+    "build:lib": "esbuild src/index.ts --bundle --platform=node --outfile=lib/index.js",
+    "check-types": "tsc --noEmit",
+    "generate-declarations": "tsc --emitDeclarationOnly",
+    "test": "run-p --aggregate-output check-types test:unit",
+    "test:watch": "watchlist --eager src -- npm test",
+    "test:unit": "node -r esbuild-register ./src/cli.ts ./src",
+    "test:unit:watch": "watchlist --eager src -- npm run test:unit"
   },
   "author": "Grant Dennison <grant.dennison@gmail.com>",
-  "license": "MIT"
+  "license": "MIT",
+  "dependencies": {},
+  "devDependencies": {
+    "@tsconfig/node16": "^1",
+    "@types/node": "^16",
+    "esbuild": "^0.15.5",
+    "esbuild-register": "^3.3.3",
+    "expect": "^28.1.3",
+    "npm-run-all": "^4.1.5",
+    "typescript": "~4.7",
+    "watchlist": "^0.3.1"
+  }
 }
