@@ -5,7 +5,7 @@ const start = performance.now();
 let testsPassed = 0;
 let testsFailed = 0;
 export const defaultTestReporter: TestReporter = {
-  reportSuccess(testDescription) {
+  reportSuccess() {
     testsPassed++;
   },
   reportFailure(testDescription, error) {
@@ -21,14 +21,9 @@ export const defaultTestReporter: TestReporter = {
   finish() {
     const total = testsPassed + testsFailed;
     const runtimeMs = performance.now() - start;
-    const resultMessage =
-      total -
-      testsFailed +
-      "/" +
-      total +
-      " tests passed (" +
-      Math.ceil(runtimeMs) +
-      "ms)";
+    const resultMessage = `${
+      total - testsFailed
+    }/${total} tests passed (${Math.ceil(runtimeMs)}ms)`;
     if (testsFailed > 0) {
       redError(resultMessage);
       process.exit(1);

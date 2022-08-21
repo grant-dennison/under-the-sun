@@ -8,7 +8,7 @@ export async function forEachTestFile(
 ) {
   await walkDir(dir, async (f) => {
     if (testFilePathRegex.test(f)) {
-      handler(f);
+      await handler(f);
     }
   });
 }

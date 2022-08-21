@@ -10,13 +10,14 @@ export function parseCliArgs(argv: readonly string[]) {
   const readNextArg = () => {
     const arg = argsArr.shift() as string;
     switch (arg) {
-      case "-r":
+      case "-r": {
         const m = argsArr.shift();
         if (!m) {
           throw new Error("-r requires an argument");
         }
         args.modulesToLoad.push(m);
         return;
+      }
     }
     if (arg.startsWith("-")) {
       throw new Error(`Unrecognized option ${arg}`);

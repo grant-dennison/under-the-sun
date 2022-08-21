@@ -18,7 +18,7 @@ export function test(
   testRuns.push({ description, promise: run() });
 
   if (!someoneIsWatching) {
-    watchTestsForFinish();
+    void watchTestsForFinish();
     someoneIsWatching = true;
   }
 }
