@@ -1,10 +1,10 @@
 {
-    "private": true,
-    "scripts": {
-        "test": "uts -r esm"
-    },
-    "devDependencies": {
-        "esm": "^3.2.25",
-        "under-the-sun": "file:../.."
-    }
+  "private": true,
+  "scripts": {
+    "test": "uts -r esm"
+  },
+  "devDependencies": {
+    "esm": "^3.2.25",
+    "under-the-sun": "file:../.."
+  }
 }

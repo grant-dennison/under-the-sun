@@ -15,25 +15,27 @@ npm install --save-dev under-the-sun
 
 ```js
 // examples/my.test.js
-import assert from "assert"
-import { test } from "under-the-sun"
+import assert from "assert";
+import { test } from "under-the-sun";
 
 test("something synchronous", () => {
-  assert(2 === 2, "2 should be 2")
-})
+  assert(2 === 2, "2 should be 2");
+});
 
 test("something asynchronous", async () => {
-  await new Promise((resolve) => setTimeout(resolve, 1000))
-  assert(2 === 3, "2 should still be...2")
-})
+  await new Promise((resolve) => setTimeout(resolve, 1000));
+  assert(2 === 3, "2 should still be...2");
+});
 ```
 
 Either execute this file directly:
+
 ```
 node my.test.js
 ```
 
 Or let under-the-sun CLI find all the tests for you:
+
 ```
 npx under-the-sun examples
 # or aliases
@@ -46,23 +48,23 @@ If you're unsatisfied with the default test reporter, you can override it.
 
 ```js
 // examples/test-reporter.js
-import { setTestReporter } from "under-the-sun"
+import { setTestReporter } from "under-the-sun";
 
-let failure = false
+let failure = false;
 setTestReporter({
-    reportSuccess(testDescription) {
-      // Do something about test success.
-    },
-    reportFailure(testDescription, error) {
-      // Do something about test failure.
-      failure = true
-      console.error("FAIL: " + testDescription)
-    },
-    finish() {
-      // Finalize the test run.
-      process.exit(failure ? 1 : 0)
-    },
-})
+  reportSuccess(testDescription) {
+    // Do something about test success.
+  },
+  reportFailure(testDescription, error) {
+    // Do something about test failure.
+    failure = true;
+    console.error("FAIL: " + testDescription);
+  },
+  finish() {
+    // Finalize the test run.
+    process.exit(failure ? 1 : 0);
+  },
+});
 ```
 
 Then just load this file alongside your tests:
@@ -100,6 +102,7 @@ See the [examples/](examples) directory for specific working examples.
 
 You probably don't want to.
 That being said, here are some aims of this library:
+
 - **Fast** - This library pretty much just runs your JavaScript with as much `async` as possible. There's nothing fancy that could possibly slow things down. The only way make it _meaningfully_ faster would be to use some alternative runtime (e.g. native code, process-level multithreading, caching).
 - **Simple** - This library doesn't provide a large API, so you're not tightly coupling your code to it in a way you can't easily change later.
 
@@ -164,13 +167,13 @@ Node's [assert module](https://nodejs.org/api/assert.html) comes with Node out o
 It has a little bit of flexibility, but the reporting may not be as nice as you're used to.
 
 ```js
-import assert from "assert"
+import assert from "assert";
 
 test("...", async () => {
-  assert(2 === 2, "2 should be 2")
-  assert.strictEqual(2, 3, "2 should still be 2")
-  assert.deepStrictEqual({}, {}, "More complex equality")
-})
+  assert(2 === 2, "2 should be 2");
+  assert.strictEqual(2, 3, "2 should still be 2");
+  assert.deepStrictEqual({}, {}, "More complex equality");
+});
 ```
 
 ### Jest's `expect` Library
@@ -178,12 +181,12 @@ test("...", async () => {
 If you're coming from [Jest](https://jestjs.io), you may feel most comfortable picking up it's [expect library](https://www.npmjs.com/package/expect).
 
 ```js
-import { expect } from "expect"
+import { expect } from "expect";
 
 test("...", async () => {
-  expect(2).toBe(2)
-  expect({}).toStrictEqual({})
-})
+  expect(2).toBe(2);
+  expect({}).toStrictEqual({});
+});
 ```
 
 ### Chai
@@ -191,11 +194,11 @@ test("...", async () => {
 For a more traditional JS approach, you may want to use [Chai](https://github.com/chaijs/chai).
 
 ```js
-import { assert } from "chai"
+import { assert } from "chai";
 
 test("...", async () => {
-  assert.equal(2, 3, "2 should still be 2")
-})
+  assert.equal(2, 3, "2 should still be 2");
+});
 ```
 
 ## Watching

@@ -1,3 +1,3 @@
-exports.foo = function() {
-    return 2
-}
+exports.foo = function () {
+  return 2;
+};

@@ -1,5 +1,5 @@
 function foo() {
-    return 2
+  return 2;
 }
 
-exports.foo = foo
+exports.foo = foo;

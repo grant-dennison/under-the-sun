@@ -1,6 +1,6 @@
 {
-    "compilerOptions": {
-        "rootDir": "."
-    },
-    "include": ["**/*.ts"]
+  "compilerOptions": {
+    "rootDir": "."
+  },
+  "include": ["**/*.ts"]
 }

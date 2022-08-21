@@ -1,14 +1,14 @@
 {
-    "extends": "@tsconfig/node16/tsconfig.json",
-    "compilerOptions": {
-        "declaration": true,
-        "rootDir": "src",
-        "outDir": "lib",
-        "importsNotUsedAsValues": "error",
-        "baseUrl": ".",
-        "paths": {
-            "under-the-sun": ["src"]
-        }
-    },
-    "include": ["src/**/*.ts"]
+  "extends": "@tsconfig/node16/tsconfig.json",
+  "compilerOptions": {
+    "declaration": true,
+    "rootDir": "src",
+    "outDir": "lib",
+    "importsNotUsedAsValues": "error",
+    "baseUrl": ".",
+    "paths": {
+      "under-the-sun": ["src"]
+    }
+  },
+  "include": ["src/**/*.ts"]
 }
