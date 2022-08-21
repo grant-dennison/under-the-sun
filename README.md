@@ -92,6 +92,10 @@ The `pattern` CLI argument is passed directly to `new RegExp(<pattern>, 'i')`.
 
 The library exposes a items for programmatic usage, but it's a small enough surface area it will just be easier for you to [check them out](src/index.ts) on your own.
 
+## Examples
+
+See the [examples/](examples) directory for specific working examples.
+
 ## Why should I use this?
 
 You probably don't want to.

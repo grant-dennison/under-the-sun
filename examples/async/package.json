@@ -1,0 +1,9 @@
+{
+    "private": true,
+    "scripts": {
+        "test": "uts"
+    },
+    "devDependencies": {
+        "under-the-sun": "file:../.."
+    }
+}

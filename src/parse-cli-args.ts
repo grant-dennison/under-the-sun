@@ -1,7 +1,7 @@
 export function parseCliArgs(argv: readonly string[]) {
     const args = {
         dir: ".",
-        testFilePathRegex: /\.(spec|test)\.(j|t)s$/,
+        testFilePathRegex: /\.(spec|test)\.[mc]?(j|t)sx?$/,
         modulesToLoad: [] as string[]
     }
     
@@ -21,11 +21,12 @@ export function parseCliArgs(argv: readonly string[]) {
         if (arg.startsWith("-")) {
             throw new Error(`Unrecognized option ${arg}`)
         }
+        positionalArgsConsumed++
         switch (positionalArgsConsumed) {
-            case 0:
+            case 1:
                 args.dir = arg
                 return
-            case 1:
+            case 2:
                 args.testFilePathRegex = new RegExp(arg)
                 return
         }

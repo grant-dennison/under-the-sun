@@ -1,0 +1,9 @@
+{
+    "private": true,
+    "scripts": {
+        "test": "uts just-tests \\/only-here\\/.+\\.tst\\.js$"
+    },
+    "devDependencies": {
+        "under-the-sun": "file:../.."
+    }
+}

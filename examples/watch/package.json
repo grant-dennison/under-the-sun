@@ -1,0 +1,10 @@
+{
+    "private": true,
+    "scripts": {
+        "test:watch": "watchlist . -- uts"
+    },
+    "devDependencies": {
+        "under-the-sun": "file:../..",
+        "watchlist": "^0.3.1"
+    }
+}

@@ -1,0 +1,9 @@
+{
+    "private": true,
+    "scripts": {
+        "test": "uts -r ./my-test-reporter"
+    },
+    "devDependencies": {
+        "under-the-sun": "file:../.."
+    }
+}
