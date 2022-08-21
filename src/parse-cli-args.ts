@@ -2,6 +2,7 @@ export function parseCliArgs(argv: readonly string[]) {
   const args = {
     dir: ".",
     testFilePathRegex: /\.(spec|test)\.[mc]?(j|t)sx?$/,
+    magicGlobal: false,
     modulesToLoad: [] as string[],
   };
 
@@ -10,6 +11,10 @@ export function parseCliArgs(argv: readonly string[]) {
   const readNextArg = () => {
     const arg = argsArr.shift() as string;
     switch (arg) {
+      case "-m":
+      case "--magic":
+        args.magicGlobal = true;
+        return;
       case "-r": {
         const m = argsArr.shift();
         if (!m) {

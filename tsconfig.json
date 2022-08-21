@@ -10,5 +10,5 @@
       "under-the-sun": ["src"]
     }
   },
-  "include": ["src/**/*.ts"]
+  "include": ["src/**/*.ts", "magic-global.d.ts"]
 }

@@ -28,10 +28,12 @@
     "build:cli": "esbuild src/cli.ts --bundle --platform=node --outfile=lib/cli.js",
     "build:lib": "esbuild src/index.ts --bundle --platform=node --outfile=lib/index.js",
     "check-types": "tsc --noEmit",
+    "clean": "node -p \"require('fs').rmSync('lib',{force:true,recursive:true})\"",
     "format": "prettier --write .",
     "generate-declarations": "tsc --emitDeclarationOnly",
     "lint": "eslint src",
     "lint:fix": "eslint --fix src",
+    "preprepublish": "npm run clean",
     "prepublish": "run-p --aggregate-output build test generate-declarations",
     "test": "run-p --aggregate-output check-types test:unit",
     "test:watch": "watchlist --eager src -- npm test",
@@ -42,7 +44,8 @@
   "license": "MIT",
   "files": [
     "lib/*.js",
-    "lib/*.d.ts"
+    "lib/*.d.ts",
+    "magic-global.d.ts"
   ],
   "devDependencies": {
     "@tsconfig/node16": "^1",

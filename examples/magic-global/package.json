@@ -2,7 +2,7 @@
   "private": true,
   "scripts": {
     "check-types": "tsc --noEmit",
-    "test": "uts -r esbuild-register"
+    "test": "uts -m -r esbuild-register"
   },
   "devDependencies": {
     "@types/node": "^16",

@@ -90,6 +90,11 @@ Tests will be discovered automatically within the `dir` directory matching the `
 
 The `pattern` CLI argument is passed directly to `new RegExp(<pattern>, 'i')`.
 
+### Options
+
+- `-r` - Load a module/script prior to test execution.
+- `-m`/`--magic` - Make `test` globally available (no need to import/require).
+
 ## API
 
 The library exposes a items for programmatic usage, but it's a small enough surface area it will just be easier for you to [check them out](src/index.ts) on your own.
