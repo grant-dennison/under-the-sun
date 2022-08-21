@@ -1,7 +1,7 @@
 export function parseCliArgs(argv: readonly string[]) {
     const args = {
         dir: ".",
-        testFilePathRegex: /\.test\.(j|t)s$/,
+        testFilePathRegex: /\.(spec|test)\.(j|t)s$/,
         modulesToLoad: [] as string[]
     }
     
