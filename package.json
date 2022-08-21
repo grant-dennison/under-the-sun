@@ -1,0 +1,11 @@
+{
+  "name": "under-the-sun",
+  "version": "1.0.0",
+  "description": "A nothing-new-under-the-sun testing framework.",
+  "main": "lib/index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Grant Dennison <grant.dennison@gmail.com>",
+  "license": "MIT"
+}
