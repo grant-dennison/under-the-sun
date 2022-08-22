@@ -1,7 +1,8 @@
 {
   "private": true,
   "scripts": {
-    "test": "uts"
+    "test": "uts",
+    "test:alt": "node ./foo.test.js"
   },
   "devDependencies": {
     "under-the-sun": "file:../.."

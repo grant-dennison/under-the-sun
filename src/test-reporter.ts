@@ -1,4 +1,4 @@
-import { defaultTestReporter } from "./default-test-reporter";
+import { getGlobalState } from "./global-state";
 
 export interface TestReporter {
   /** Handle test success. **SHOULD NOT THROW** */
@@ -16,25 +16,28 @@ export interface TestReporter {
   finish: () => void;
 }
 
-let globalReporter = defaultTestReporter;
 /** Configure the test reporter (if you don't like the default). */
 export function setTestReporter(reporter: TestReporter): void {
-  globalReporter = reporter;
+  getGlobalState().reporter = reporter;
 }
 
 export const reportSuccess: TestReporter["reportSuccess"] = (
   testDescription,
   runtimeMs
 ) => {
-  return globalReporter.reportSuccess(testDescription, runtimeMs);
+  return getGlobalState().reporter.reportSuccess(testDescription, runtimeMs);
 };
 export const reportFailure: TestReporter["reportFailure"] = (
   testDescription,
   error,
   runtimeMs
 ) => {
-  return globalReporter.reportFailure(testDescription, error, runtimeMs);
+  return getGlobalState().reporter.reportFailure(
+    testDescription,
+    error,
+    runtimeMs
+  );
 };
 export const finish: TestReporter["finish"] = () => {
-  return globalReporter.finish();
+  return getGlobalState().reporter.finish();
 };

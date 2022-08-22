@@ -1,11 +1,9 @@
 #!/usr/bin/env node
 
 import path from "path";
-import { stallTestCompletion, test } from "./define-test";
-import { forEachTestFile } from "./gather-tests";
+import { forEachTestFile, reportFailure, stallTestCompletion, test } from "..";
 import { requireThenImport } from "./import-or-require";
 import { parseCliArgs } from "./parse-cli-args";
-import { reportFailure } from "./test-reporter";
 
 const args = parseCliArgs(process.argv);
 

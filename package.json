@@ -1,6 +1,6 @@
 {
   "name": "under-the-sun",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "A nothing-new-under-the-sun testing framework.",
   "repository": {
     "type": "git",
@@ -30,7 +30,7 @@
   },
   "scripts": {
     "build": "run-p --aggregate-output build:cli build:lib",
-    "build:cli": "esbuild src/cli.ts --bundle --platform=node --outfile=lib/cli.js",
+    "build:cli": "esbuild src/cli/main.ts --external:.. --bundle --platform=node --outfile=lib/cli.js",
     "build:lib": "esbuild src/index.ts --bundle --platform=node --outfile=lib/index.js",
     "check-types": "tsc --noEmit",
     "clean": "node -p \"require('fs').rmSync('lib',{force:true,recursive:true})\"",
@@ -42,7 +42,7 @@
     "prepublish": "run-p --aggregate-output build test generate-declarations",
     "test": "run-p --aggregate-output check-types test:unit",
     "test:watch": "watchlist --eager src -- npm test",
-    "test:unit": "node -r esbuild-register ./src/cli.ts ./src",
+    "test:unit": "node -r esbuild-register ./src/cli/main.ts ./src",
     "test:unit:watch": "watchlist --eager src -- npm run test:unit"
   },
   "author": "Grant Dennison <grant.dennison@gmail.com>",

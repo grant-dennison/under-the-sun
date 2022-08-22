@@ -1,5 +1,6 @@
 import { performance } from "perf_hooks";
-import { finish, reportFailure, reportSuccess } from "./test-reporter";
+import { reportFailure, reportSuccess } from "./test-reporter";
+import { schedule } from "./test-scheduler";
 
 /** Register a test to run. */
 export function test(
@@ -15,33 +16,16 @@ export function test(
       await reportFailure(description, e, performance.now() - start);
     }
   };
-  testRuns.push({ description, promise: run() });
-
-  if (!someoneIsWatching) {
-    void watchTestsForFinish();
-    someoneIsWatching = true;
-  }
+  schedule(description, run);
 }
 
 /**
  * Don't let test results be gathered until the promise is fulfilled.
+ *
+ * This function is appropriate to call if you are asynchronously generating test cases.
+ *
  * @param exercise What to do while stalling final test results. **SHOULD NOT THROW**
  */
 export function stallTestCompletion(exercise: () => PromiseLike<void>): void {
-  testRuns.push({ description: "stall", promise: exercise() });
+  schedule("stall", exercise);
 }
-
-interface TestRun {
-  description: string;
-  promise: PromiseLike<void>;
-}
-
-async function watchTestsForFinish() {
-  for (let i = 0; i < testRuns.length; i++) {
-    await testRuns[i].promise;
-  }
-  finish();
-}
-
-let someoneIsWatching = false;
-const testRuns: TestRun[] = [];

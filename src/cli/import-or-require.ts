@@ -6,25 +6,6 @@ const dimport = (x: string) =>
     0
   ) as PromiseLike<unknown>;
 
-const hasImport = (() => {
-  try {
-    // eslint-disable-next-line @typescript-eslint/no-implied-eval
-    new Function("import").call(0);
-  } catch (err) {
-    return !/unexpected/i.test((err as Error).message);
-  }
-})();
-
-// This is the strategy uvu used.
-// I'm not convinced it works as well for my use cases.
-export async function importOrRequire(m: string) {
-  if (hasImport) {
-    await dimport(m);
-  } else {
-    require(m);
-  }
-}
-
 export async function requireThenImport(m: string) {
   try {
     require(m);
