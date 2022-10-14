@@ -28,13 +28,7 @@ test("something asynchronous", async () => {
 });
 ```
 
-Either execute this file directly:
-
-```
-node my.test.js
-```
-
-Or let under-the-sun CLI find all the tests for you:
+Execute tests in a directory via CLI:
 
 ```
 npx under-the-sun examples
@@ -52,15 +46,17 @@ import { setTestReporter } from "under-the-sun";
 
 let failure = false;
 setTestReporter({
-  reportSuccess(testDescription) {
-    // Do something about test success.
-  },
-  reportFailure(testDescription, error) {
+  reportResult(testDescription, result) {
+    if (!result.error) {
+      // Do something about test success.
+      return
+    }
+
     // Do something about test failure.
     failure = true;
     console.error("FAIL: " + testDescription);
   },
-  finish() {
+  reportFinish() {
     // Finalize the test run.
     process.exit(failure ? 1 : 0);
   },
@@ -73,31 +69,40 @@ Then just load this file alongside your tests:
 uts -r examples/test-reporter.js examples
 ```
 
-You can check out the [default implementation](src/default-test-reporter.ts) for ideas.
+You can check out the [default implementation](src/reporter/default-test-reporter.ts) for ideas.
 
 ## CLI
 
 The CLI is available via `under-the-sun` or `uts`.
 
 ```
-uts [options] [dir] [pattern]
+uts [-p <file pattern>] [options] [dir] [file filter] [description filter]
 ```
 
-Tests will be discovered automatically within the `dir` directory matching the `pattern` regex.
+Tests will be discovered automatically within the `dir` directory.
+Test files must match both `file pattern` and `file filter` to be executed.
+Only tests within those files matching `description filter` will be executed. 
 
 - `dir` is the current directory by default.
-- `pattern` is `/\.test\.(j|t)s$/` [by default](src/parse-cli-args.ts#4)
+- `file pattern` is `/\.test\.(j|t)s$/` [by default](src/cli/parse-cli-args.ts#13).
+- `file filter` matches all files by default.
+- `description filter` matches all tests by default.
 
-The `pattern` CLI argument is passed directly to `new RegExp(<pattern>, 'i')`.
+The `file pattern`, `file filter`, and `description filter` CLI arguments
+are passed directly to `new RegExp(<pattern>, 'i')`.
+
+If this seems confusing, start by just running `uts` without any arguments.
 
 ### Options
 
-- `-r` - Load a module/script prior to test execution.
-- `-m`/`--magic` - Make `test` globally available (no need to import/require).
+- `-r`/`--require` - Load a module/script prior to test execution.
+- `-m`/`--magic` - Make `test` and `defineTestGroup` globally available (no need to import/require).
 
 ## API
 
-The library exposes a items for programmatic usage, but it's a small enough surface area it will just be easier for you to [check them out](src/index.ts) on your own.
+The library exposes a couple items for programmatic usage, 
+but it's a small enough surface area it will just be easier for you
+to [check them out](src/index.ts) on your own.
 
 ## Examples
 

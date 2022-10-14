@@ -1,9 +1,6 @@
-export { stallTestCompletion, test } from "./define-test";
-export { forEachTestFile } from "./gather-tests";
+export { defineTestGroup, test } from "./define-test";
 export {
-  reportFailure,
-  reportSuccess,
   setTestReporter,
-  TestReporter,
-} from "./test-reporter";
-export { setTestScheduler, TestScheduler } from "./test-scheduler";
+  TestReporter
+} from "./reporter/test-reporter";
+

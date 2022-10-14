@@ -2,36 +2,30 @@ import { performance } from "perf_hooks";
 import type { TestReporter } from "./test-reporter";
 
 export function makeDefaultTestReporter(): TestReporter {
-  const start = performance.now();
+  let start = performance.now();
   let testsPassed = 0;
   let testsFailed = 0;
   return {
-    reportSuccess() {
-      testsPassed++;
+    reportStart() {
+      start = performance.now()
     },
-    reportFailure(testDescription, error) {
+    reportResult(testDescription, result) {
+      if (!result.error) {
+        testsPassed++;
+        return
+      }
+
       testsFailed++;
       redError("FAIL: " + testDescription);
-      if (error instanceof Error) {
-        console.error(error.stack ?? error.message);
-      } else {
-        console.error(error);
-      }
+      console.error(result.error.stack ?? result.error.message)
       console.error();
     },
-    finish() {
+    reportFinish() {
       const total = testsPassed + testsFailed;
       const runtimeMs = performance.now() - start;
-      const resultMessage = `${
-        total - testsFailed
-      }/${total} tests passed (${Math.ceil(runtimeMs)}ms)`;
-      if (testsFailed > 0) {
-        redError(resultMessage);
-        process.exit(1);
-      } else {
-        greenInfo(resultMessage);
-        process.exit(0);
-      }
+      const resultMessage = `${testsPassed}/${total} tests passed` + ` (${Math.ceil(runtimeMs)}ms)`;
+      const print = testsFailed > 0 ? redError : greenInfo
+      print(resultMessage)
     },
   };
 }

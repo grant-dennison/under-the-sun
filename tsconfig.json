@@ -5,9 +5,9 @@
     "rootDir": "src",
     "outDir": "lib",
     "importsNotUsedAsValues": "error",
-    "baseUrl": ".",
+    "baseUrl": "./src",
     "paths": {
-      "under-the-sun": ["src"]
+      "under-the-sun": ["."]
     }
   },
   "include": ["src/**/*.ts", "magic-global.d.ts"]
