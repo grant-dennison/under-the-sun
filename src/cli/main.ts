@@ -40,7 +40,10 @@ function shouldIncludeFile(f: string): boolean {
 runAsync(async () => {
   await loadRequiredModules()
   await configure()
-  const success = await runTests(() => walkFiles(args.dir, async (f) => {
+  const success = await runTests(() => walkFiles({
+    dir: args.dir,
+    ignorePattern: args.ignoreRegex,
+  }, async (f) => {
     if (!shouldIncludeFile(f)) {
       return
     }

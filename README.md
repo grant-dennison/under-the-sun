@@ -76,7 +76,7 @@ You can check out the [default implementation](src/reporter/default-test-reporte
 The CLI is available via `under-the-sun` or `uts`.
 
 ```
-uts [-p <file pattern>] [options] [dir] [file filter] [description filter]
+uts [-p <file pattern>] [-i <ignore pattern>] [options] [<dir> [<file filter> [<description filter>]]]
 ```
 
 Tests will be discovered automatically within the `dir` directory.
@@ -84,12 +84,14 @@ Test files must match both `file pattern` and `file filter` to be executed.
 Only tests within those files matching `description filter` will be executed. 
 
 - `dir` is the current directory by default.
-- `file pattern` is `/\.test\.(j|t)s$/` [by default](src/cli/parse-cli-args.ts#13).
+- `file pattern` is `/\.test\.(j|t)s$/` [by default](src/cli/parse-cli-args.ts#14).
+- `ignore pattern` is `/(^|\/)(node_modules($|\/)|\.)/` [by default](src/cli/parse-cli-args.ts#13).
+  - i.e. ignores `node_modules/` and dot files
 - `file filter` matches all files by default.
 - `description filter` matches all tests by default.
 
 The `file pattern`, `file filter`, and `description filter` CLI arguments
-are passed directly to `new RegExp(<pattern>, 'i')`.
+are passed directly to `new RegExp(<pattern>)`.
 
 If this seems confusing, start by just running `uts` without any arguments.
 

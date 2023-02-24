@@ -10,8 +10,9 @@ export function parseCliArgs(argv: readonly string[]) {
 function parseCliArgsThrowing(argv: readonly string[]) {
     const args = {
     dir: ".",
-    testFilePathRegex1: /\.(spec|test)\.[mc]?(j|t)sx?$/,
-    testFilePathRegex2: /\.(spec|test)\.[mc]?(j|t)sx?$/,
+    ignoreRegex: /(^|\/)(node_modules($|\/)|\.)/,
+    testFilePathRegex1: /\.(spec|test)\.[mc]?[jt]sx?$/,
+    testFilePathRegex2: /.*/,
     testDescriptionRegex: /.*/,
     magicGlobal: false,
     modulesToLoad: [] as string[],
@@ -26,6 +27,14 @@ function parseCliArgsThrowing(argv: readonly string[]) {
       case "--help":
         console.log(usage)
         process.exit(2)
+        return
+      case "-i":
+      case "--ignore":
+        const i = argsArr.shift()
+        if (!i) {
+          throw new Error("-i/--ignore requires an argument")
+        }
+        args.ignoreRegex = new RegExp(i)
         return
       case "-m":
       case "--magic":
