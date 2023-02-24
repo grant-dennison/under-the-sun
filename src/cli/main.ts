@@ -39,7 +39,7 @@ async function configure() {
 }
 
 function shouldIncludeFile(f: string): boolean {
-  return args.testFilePathRegex1.test(f) || args.testFilePathRegex2.test(f)
+  return args.testFilePathRegex1.test(f) && args.testFilePathRegex2.test(f)
 }
 
 runAsync(async () => {

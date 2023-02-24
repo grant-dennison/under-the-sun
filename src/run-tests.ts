@@ -19,7 +19,7 @@ export async function runTests(gatherTests: () => PromiseLike<void>) {
 
 export function submitTest(test: TestDefinition): void {
   const state = getGlobalState()
-  if (state.testsRunning !== null && !state.filterByDescription.test(test.description)) {
+  if (state.testsRunning !== null && state.filterByDescription.test(test.description)) {
     state.testsRunning.push(state.scheduler.schedule(test))
   }
 }
