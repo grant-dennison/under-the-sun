@@ -1,4 +1,4 @@
-import assert from "assert";
+import assert from "node:assert";
 import { test } from "under-the-sun";
 import { foo } from "./foo";
 

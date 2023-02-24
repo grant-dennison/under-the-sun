@@ -15,7 +15,7 @@ npm install --save-dev under-the-sun
 
 ```js
 // examples/my.test.js
-import assert from "assert";
+import assert from "node:assert";
 import { test } from "under-the-sun";
 
 test("something synchronous", () => {
@@ -162,7 +162,7 @@ If you're using TypeScript, you may want to run your tests with some kind of Typ
 ```
 under-the-sun -r esbuild-register examples
 under-the-sun -r @swc-node/register examples
-under-the-sun -r ts-node/register
+under-the-sun -r ts-node/register examples
 ```
 
 ## Assertions
@@ -177,7 +177,7 @@ Node's [assert module](https://nodejs.org/api/assert.html) comes with Node out o
 It has a little bit of flexibility, but the reporting may not be as nice as you're used to.
 
 ```js
-import assert from "assert";
+import assert from "node:assert";
 
 test("...", async () => {
   assert(2 === 2, "2 should be 2");
