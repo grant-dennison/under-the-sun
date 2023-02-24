@@ -16,6 +16,7 @@ function parseCliArgsThrowing(argv: readonly string[]) {
     testDescriptionRegex: /.*/,
     magicGlobal: false,
     modulesToLoad: [] as string[],
+    serial: false,
   };
 
   const argsArr = argv.slice(2);
@@ -57,6 +58,10 @@ function parseCliArgsThrowing(argv: readonly string[]) {
         args.modulesToLoad.push(r);
         return;
       }
+      case "-s":
+      case "--serial":
+        args.serial = true;
+        return;
     }
     if (arg.startsWith("-")) {
       if (arg.includes("=")) {
@@ -74,6 +79,7 @@ function parseCliArgsThrowing(argv: readonly string[]) {
         return;
       case 3:
         args.testDescriptionRegex = new RegExp(arg);
+        return;
     }
     throw new Error(`Too many arguments, starting with ${arg}`);
   };
@@ -86,17 +92,18 @@ function parseCliArgsThrowing(argv: readonly string[]) {
 
 const usage = `
 Usage:
-  under-the-sun [-r <module>] [-m] [-p <file pattern>]
-                [dir] [file filter] [description filter]
+  under-the-sun [-r <module>] [-m] [-s] [-p <file pattern>]
+                [<dir> [<file filter> [<description filter>]]]
 
 Parameters:
-  [dir]                 Directory in which to find tests
-  [file filter]         Regex pattern for matching test file names,
+  <dir>                 Directory in which to find tests
+  <file filter>         Regex pattern for matching test file names,
                         applied *in addition to* -p/--pattern
-  [description filter]  Regex pattern for matching test descriptions
+  <description filter>  Regex pattern for matching test descriptions
 
 Options:
   --magic, -m     Make "test" available as a global        [boolean]
   --pattern, -p   Regex pattern for matching test files     [string]
   --require, -r   Preload the specified module at startup   [string]
+  --serial, -s    Run tests sequentially, not in parallel  [boolean]
 `

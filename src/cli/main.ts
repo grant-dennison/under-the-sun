@@ -1,11 +1,13 @@
 #!/usr/bin/env node
 
 import path from "node:path";
-import { walkFiles } from "src/walk-files";
 import { defineTestGroup, test } from "../define-test";
 import { getGlobalState } from "../global-state";
 import { runTests } from "../run-tests";
+import { makeSerialTestScheduler } from "../scheduler/serial-test-scheduler";
+import { setTestScheduler } from "../scheduler/test-scheduler";
 import { ensureError } from "../utils/error";
+import { walkFiles } from "../walk-files";
 import { requireThenImport } from "./import-or-require";
 import { parseCliArgs } from "./parse-cli-args";
 import { runAsync } from "./run-async";
@@ -26,6 +28,9 @@ async function loadRequiredModules() {
 
 async function configure() {
   state.filterByDescription = args.testDescriptionRegex
+  if (args.serial) {
+    setTestScheduler(makeSerialTestScheduler())
+  }
   if (args.magicGlobal) {
     const g = global as Record<string, unknown>
     g.test = test;

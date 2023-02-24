@@ -99,6 +99,9 @@ If this seems confusing, start by just running `uts` without any arguments.
 
 - `-r`/`--require` - Load a module/script prior to test execution.
 - `-m`/`--magic` - Make `test` and `defineTestGroup` globally available (no need to import/require).
+- `-s`/`--serial` - Run tests sequentially rather than in parallel (default).
+  Note: This is only intended as a debugging mechanism for when your tests are failing intermittently in parallel.
+  Tests will not run in deterministic order even with this flag.
 
 ## API
 
