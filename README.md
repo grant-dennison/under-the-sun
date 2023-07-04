@@ -15,32 +15,35 @@ npm install --save-dev under-the-sun
 
 ```js
 // examples/my.test.js
-import assert from "assert";
-import { test } from "under-the-sun";
+import assert from "node:assert"
+import { test } from "under-the-sun"
 
 test("something synchronous", () => {
-  assert(2 === 2, "2 should be 2");
-});
+  assert(2 === 2, "2 should be 2")
+})
 
 test("something asynchronous", async () => {
-  await new Promise((resolve) => setTimeout(resolve, 1000));
-  assert(2 === 3, "2 should still be...2");
-});
+  await new Promise((resolve) => setTimeout(resolve, 1000))
+  assert(2 === 3, "2 should still be...2")
+})
 ```
 
-Either execute this file directly:
-
-```
-node my.test.js
-```
-
-Or let under-the-sun CLI find all the tests for you:
+Execute tests in a directory via CLI:
 
 ```
 npx under-the-sun examples
-# or aliases
+# or with alias
 npx uts examples
 ```
+
+Execute a filtered set of tests via CLI:
+
+```
+npx under-the-sun examples my asynchronous
+```
+
+_In this case, only files in the `examples` directory matching the regex `my` will be considered._
+_Within those files, only tests whose descriptions match the regex `asynchronous` will be executed._
 
 ## Output
 
@@ -48,23 +51,25 @@ If you're unsatisfied with the default test reporter, you can override it.
 
 ```js
 // examples/test-reporter.js
-import { setTestReporter } from "under-the-sun";
+import { setTestReporter } from "under-the-sun"
 
-let failure = false;
+let failure = false
 setTestReporter({
-  reportSuccess(testDescription) {
-    // Do something about test success.
-  },
-  reportFailure(testDescription, error) {
+  reportResult(testDescription, result) {
+    if (!result.error) {
+      // Do something about test success.
+      return
+    }
+
     // Do something about test failure.
-    failure = true;
-    console.error("FAIL: " + testDescription);
+    failure = true
+    console.error("FAIL: " + testDescription)
   },
-  finish() {
+  reportFinish() {
     // Finalize the test run.
-    process.exit(failure ? 1 : 0);
+    process.exit(failure ? 1 : 0)
   },
-});
+})
 ```
 
 Then just load this file alongside your tests:
@@ -73,31 +78,45 @@ Then just load this file alongside your tests:
 uts -r examples/test-reporter.js examples
 ```
 
-You can check out the [default implementation](src/default-test-reporter.ts) for ideas.
+You can check out the [default implementation](src/reporter/default-test-reporter.ts) for ideas.
 
 ## CLI
 
 The CLI is available via `under-the-sun` or `uts`.
 
 ```
-uts [options] [dir] [pattern]
+uts [-p <file pattern>] [-i <ignore pattern>] [options] [<dir> [<file filter> [<description filter>]]]
 ```
 
-Tests will be discovered automatically within the `dir` directory matching the `pattern` regex.
+Tests will be discovered automatically within the `dir` directory.
+Test files must match both `file pattern` and `file filter` to be executed.
+Only tests within those files matching `description filter` will be executed.
 
 - `dir` is the current directory by default.
-- `pattern` is `/\.test\.(j|t)s$/` [by default](src/parse-cli-args.ts#4)
+- `file pattern` is `/\.test\.(j|t)s$/` [by default](src/cli/parse-cli-args.ts#14).
+- `ignore pattern` is `/(^|\/)(node_modules($|\/)|\.)/` [by default](src/cli/parse-cli-args.ts#13).
+  - i.e. ignores `node_modules/` and dot files
+- `file filter` matches all files by default.
+- `description filter` matches all tests by default.
 
-The `pattern` CLI argument is passed directly to `new RegExp(<pattern>, 'i')`.
+The `file pattern`, `file filter`, and `description filter` CLI arguments
+are passed directly to `new RegExp(<pattern>)`.
+
+If this seems confusing, start by just running `uts` without any arguments.
 
 ### Options
 
-- `-r` - Load a module/script prior to test execution.
-- `-m`/`--magic` - Make `test` globally available (no need to import/require).
+- `-r`/`--require` - Load a module/script prior to test execution.
+- `-m`/`--magic` - Make `test` and `defineTestGroup` globally available (no need to import/require).
+- `-s`/`--serial` - Run tests sequentially rather than in parallel (default).
+  Note: This is only intended as a debugging mechanism for when your tests are failing intermittently in parallel.
+  Tests will not run in deterministic order even with this flag.
 
 ## API
 
-The library exposes a items for programmatic usage, but it's a small enough surface area it will just be easier for you to [check them out](src/index.ts) on your own.
+The library exposes a couple items for programmatic usage,
+but it's a small enough surface area it will just be easier for you
+to [check them out](src/index.ts) on your own.
 
 ## Examples
 
@@ -157,7 +176,7 @@ If you're using TypeScript, you may want to run your tests with some kind of Typ
 ```
 under-the-sun -r esbuild-register examples
 under-the-sun -r @swc-node/register examples
-under-the-sun -r ts-node/register
+under-the-sun -r ts-node/register examples
 ```
 
 ## Assertions
@@ -172,13 +191,13 @@ Node's [assert module](https://nodejs.org/api/assert.html) comes with Node out o
 It has a little bit of flexibility, but the reporting may not be as nice as you're used to.
 
 ```js
-import assert from "assert";
+import assert from "node:assert"
 
 test("...", async () => {
-  assert(2 === 2, "2 should be 2");
-  assert.strictEqual(2, 3, "2 should still be 2");
-  assert.deepStrictEqual({}, {}, "More complex equality");
-});
+  assert(2 === 2, "2 should be 2")
+  assert.strictEqual(2, 3, "2 should still be 2")
+  assert.deepStrictEqual({}, {}, "More complex equality")
+})
 ```
 
 ### Jest's `expect` Library
@@ -186,12 +205,12 @@ test("...", async () => {
 If you're coming from [Jest](https://jestjs.io), you may feel most comfortable picking up it's [expect library](https://www.npmjs.com/package/expect).
 
 ```js
-import { expect } from "expect";
+import { expect } from "expect"
 
 test("...", async () => {
-  expect(2).toBe(2);
-  expect({}).toStrictEqual({});
-});
+  expect(2).toBe(2)
+  expect({}).toStrictEqual({})
+})
 ```
 
 ### Chai
@@ -199,11 +218,11 @@ test("...", async () => {
 For a more traditional JS approach, you may want to use [Chai](https://github.com/chaijs/chai).
 
 ```js
-import { assert } from "chai";
+import { assert } from "chai"
 
 test("...", async () => {
-  assert.equal(2, 3, "2 should still be 2");
-});
+  assert.equal(2, 3, "2 should still be 2")
+})
 ```
 
 ## Watching

@@ -1,6 +1,6 @@
 {
   "name": "under-the-sun",
-  "version": "1.0.1",
+  "version": "2.0.0",
   "description": "A nothing-new-under-the-sun testing framework.",
   "repository": {
     "type": "git",
@@ -30,11 +30,11 @@
   },
   "scripts": {
     "build": "run-p --aggregate-output build:cli build:lib",
-    "build:cli": "esbuild src/cli/main.ts --external:.. --bundle --platform=node --outfile=lib/cli.js",
-    "build:lib": "esbuild src/index.ts --bundle --platform=node --outfile=lib/index.js",
+    "build:cli": "esbuild src/cli/main.ts --external:.. --bundle --platform=node --minify --outfile=lib/cli.js",
+    "build:lib": "esbuild src/index.ts --bundle --platform=node --minify --outfile=lib/index.js",
     "check-types": "tsc --noEmit",
     "clean": "node -p \"require('fs').rmSync('lib',{force:true,recursive:true})\"",
-    "format": "prettier --write .",
+    "format": "prettier --no-semi --write .",
     "generate-declarations": "tsc --emitDeclarationOnly",
     "lint": "eslint src",
     "lint:fix": "eslint --fix src",

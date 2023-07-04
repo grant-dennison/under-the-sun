@@ -1,31 +1,39 @@
-import { makeDefaultTestReporter } from "./default-test-reporter";
-import type { TestReporter } from "./test-reporter";
-import { makeDefaultTestRunner, TestScheduler } from "./test-scheduler";
+import type { TestResult } from "./define-test"
+import { makeDefaultTestReporter } from "./reporter/default-test-reporter"
+import type { TestReporter } from "./reporter/test-reporter"
+import {
+  TestScheduler,
+  makeDefaultTestScheduler,
+} from "./scheduler/test-scheduler"
 
 const where = (global ??
   // @ts-expect-error window is just fallback
   window ??
   // Fallback to local object.
-  {}) as Record<symbol, GlobalState | undefined>;
+  {}) as Record<symbol, GlobalState | undefined>
 
-const symbol = Symbol.for("__UNDER_THE_SUN_STATE__");
+const symbol = Symbol.for("__UNDER_THE_SUN_STATE__")
 
 export interface GlobalState {
-  reporter: TestReporter;
-  scheduler: TestScheduler;
+  testsRunning: PromiseLike<TestResult>[] | null
+  reporter: TestReporter
+  scheduler: TestScheduler
+  filterByDescription: RegExp
 }
 
-let cachedState: GlobalState | undefined = undefined;
+let cachedState: GlobalState | undefined = undefined
 export function getGlobalState(): GlobalState {
   if (cachedState) {
-    return cachedState;
+    return cachedState
   }
   if (!where[symbol]) {
     where[symbol] = {
+      testsRunning: null,
       reporter: makeDefaultTestReporter(),
-      scheduler: makeDefaultTestRunner(),
-    };
+      scheduler: makeDefaultTestScheduler(),
+      filterByDescription: /.*/,
+    }
   }
-  cachedState = where[symbol];
-  return cachedState;
+  cachedState = where[symbol]
+  return cachedState
 }
