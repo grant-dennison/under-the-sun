@@ -49,7 +49,9 @@
   "license": "MIT",
   "files": [
     "lib/*.js",
-    "lib/*.d.ts",
+    "lib/define-test.d.ts",
+    "lib/index.d.ts",
+    "lib/reporter/test-reporter.d.ts",
     "magic-global.d.ts"
   ],
   "devDependencies": {
