@@ -2,4 +2,4 @@
 declare const test: (
   description: string,
   exercise: () => void | PromiseLike<void>
-) => void;
+) => void

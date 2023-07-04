@@ -15,17 +15,17 @@ npm install --save-dev under-the-sun
 
 ```js
 // examples/my.test.js
-import assert from "node:assert";
-import { test } from "under-the-sun";
+import assert from "node:assert"
+import { test } from "under-the-sun"
 
 test("something synchronous", () => {
-  assert(2 === 2, "2 should be 2");
-});
+  assert(2 === 2, "2 should be 2")
+})
 
 test("something asynchronous", async () => {
-  await new Promise((resolve) => setTimeout(resolve, 1000));
-  assert(2 === 3, "2 should still be...2");
-});
+  await new Promise((resolve) => setTimeout(resolve, 1000))
+  assert(2 === 3, "2 should still be...2")
+})
 ```
 
 Execute tests in a directory via CLI:
@@ -42,9 +42,9 @@ If you're unsatisfied with the default test reporter, you can override it.
 
 ```js
 // examples/test-reporter.js
-import { setTestReporter } from "under-the-sun";
+import { setTestReporter } from "under-the-sun"
 
-let failure = false;
+let failure = false
 setTestReporter({
   reportResult(testDescription, result) {
     if (!result.error) {
@@ -53,14 +53,14 @@ setTestReporter({
     }
 
     // Do something about test failure.
-    failure = true;
-    console.error("FAIL: " + testDescription);
+    failure = true
+    console.error("FAIL: " + testDescription)
   },
   reportFinish() {
     // Finalize the test run.
-    process.exit(failure ? 1 : 0);
+    process.exit(failure ? 1 : 0)
   },
-});
+})
 ```
 
 Then just load this file alongside your tests:
@@ -81,7 +81,7 @@ uts [-p <file pattern>] [-i <ignore pattern>] [options] [<dir> [<file filter> [<
 
 Tests will be discovered automatically within the `dir` directory.
 Test files must match both `file pattern` and `file filter` to be executed.
-Only tests within those files matching `description filter` will be executed. 
+Only tests within those files matching `description filter` will be executed.
 
 - `dir` is the current directory by default.
 - `file pattern` is `/\.test\.(j|t)s$/` [by default](src/cli/parse-cli-args.ts#14).
@@ -105,7 +105,7 @@ If this seems confusing, start by just running `uts` without any arguments.
 
 ## API
 
-The library exposes a couple items for programmatic usage, 
+The library exposes a couple items for programmatic usage,
 but it's a small enough surface area it will just be easier for you
 to [check them out](src/index.ts) on your own.
 
@@ -182,13 +182,13 @@ Node's [assert module](https://nodejs.org/api/assert.html) comes with Node out o
 It has a little bit of flexibility, but the reporting may not be as nice as you're used to.
 
 ```js
-import assert from "node:assert";
+import assert from "node:assert"
 
 test("...", async () => {
-  assert(2 === 2, "2 should be 2");
-  assert.strictEqual(2, 3, "2 should still be 2");
-  assert.deepStrictEqual({}, {}, "More complex equality");
-});
+  assert(2 === 2, "2 should be 2")
+  assert.strictEqual(2, 3, "2 should still be 2")
+  assert.deepStrictEqual({}, {}, "More complex equality")
+})
 ```
 
 ### Jest's `expect` Library
@@ -196,12 +196,12 @@ test("...", async () => {
 If you're coming from [Jest](https://jestjs.io), you may feel most comfortable picking up it's [expect library](https://www.npmjs.com/package/expect).
 
 ```js
-import { expect } from "expect";
+import { expect } from "expect"
 
 test("...", async () => {
-  expect(2).toBe(2);
-  expect({}).toStrictEqual({});
-});
+  expect(2).toBe(2)
+  expect({}).toStrictEqual({})
+})
 ```
 
 ### Chai
@@ -209,11 +209,11 @@ test("...", async () => {
 For a more traditional JS approach, you may want to use [Chai](https://github.com/chaijs/chai).
 
 ```js
-import { assert } from "chai";
+import { assert } from "chai"
 
 test("...", async () => {
-  assert.equal(2, 3, "2 should still be 2");
-});
+  assert.equal(2, 3, "2 should still be 2")
+})
 ```
 
 ## Watching

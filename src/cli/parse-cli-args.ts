@@ -8,7 +8,7 @@ export function parseCliArgs(argv: readonly string[]) {
 }
 
 function parseCliArgsThrowing(argv: readonly string[]) {
-    const args = {
+  const args = {
     dir: ".",
     ignoreRegex: /(^|\/)(node_modules($|\/)|\.)/,
     testFilePathRegex1: /\.(spec|test)\.[mc]?[jt]sx?$/,
@@ -17,12 +17,12 @@ function parseCliArgsThrowing(argv: readonly string[]) {
     magicGlobal: false,
     modulesToLoad: [] as string[],
     serial: false,
-  };
+  }
 
-  const argsArr = argv.slice(2);
-  let positionalArgsConsumed = 0;
+  const argsArr = argv.slice(2)
+  let positionalArgsConsumed = 0
   const readNextArg = () => {
-    const arg = argsArr.shift() as string;
+    const arg = argsArr.shift() as string
     switch (arg) {
       case "-h":
       case "--help":
@@ -39,55 +39,57 @@ function parseCliArgsThrowing(argv: readonly string[]) {
         return
       case "-m":
       case "--magic":
-        args.magicGlobal = true;
-        return;
+        args.magicGlobal = true
+        return
       case "-p":
       case "--pattern":
         const p = argsArr.shift()
         if (!p) {
           throw new Error("-p/--pattern requires an argument")
         }
-        args.testFilePathRegex1 = new RegExp(p);
+        args.testFilePathRegex1 = new RegExp(p)
         return
       case "-r":
       case "--require": {
-        const r = argsArr.shift();
+        const r = argsArr.shift()
         if (!r) {
-          throw new Error("-r requires an argument");
+          throw new Error("-r requires an argument")
         }
-        args.modulesToLoad.push(r);
-        return;
+        args.modulesToLoad.push(r)
+        return
       }
       case "-s":
       case "--serial":
-        args.serial = true;
-        return;
+        args.serial = true
+        return
     }
     if (arg.startsWith("-")) {
       if (arg.includes("=")) {
-        throw new Error(`Unrecognized option ${arg}. (This tool does not support \`--some-arg=some-value\`-style options. Use \`--some-arg some-value\` instead.)`);
+        throw new Error(
+          `Unrecognized option ${arg}. (This tool does not support \`--some-arg=some-value\`-style options. Use \`--some-arg some-value\` instead.)`
+        )
       }
-      throw new Error(`Unrecognized option ${arg}`);
+      throw new Error(`Unrecognized option ${arg}`)
     }
-    positionalArgsConsumed++;
+    positionalArgsConsumed++
     switch (positionalArgsConsumed) {
       case 1:
-        args.dir = arg;
-        return;
+        args.dir = arg
+        return
       case 2:
-        args.testFilePathRegex2 = new RegExp(arg);
-        return;
+        args.testFilePathRegex2 = new RegExp(arg)
+        return
       case 3:
-        args.testDescriptionRegex = new RegExp(arg);
-        return;
+        args.testDescriptionRegex = new RegExp(arg)
+        return
     }
-    throw new Error(`Too many arguments, starting with ${arg}`);
-  };
+    throw new Error(`Too many arguments, starting with ${arg}`)
+  }
   while (argsArr.length > 0) {
-    readNextArg();
+    readNextArg()
   }
 
-  return args;
+  return args
 }
 
 const usage = `

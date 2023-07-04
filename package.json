@@ -34,7 +34,7 @@
     "build:lib": "esbuild src/index.ts --bundle --platform=node --outfile=lib/index.js",
     "check-types": "tsc --noEmit",
     "clean": "node -p \"require('fs').rmSync('lib',{force:true,recursive:true})\"",
-    "format": "prettier --write .",
+    "format": "prettier --no-semi --write .",
     "generate-declarations": "tsc --emitDeclarationOnly",
     "lint": "eslint src",
     "lint:fix": "eslint --fix src",

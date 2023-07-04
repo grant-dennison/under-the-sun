@@ -1,7 +1,7 @@
-import { performance } from "node:perf_hooks";
-import { getGlobalState } from "./global-state";
-import { submitTest } from "./run-tests";
-import { catchError } from "./utils/error";
+import { performance } from "node:perf_hooks"
+import { getGlobalState } from "./global-state"
+import { submitTest } from "./run-tests"
+import { catchError } from "./utils/error"
 
 export type TestDefinition = {
   description: string
@@ -21,13 +21,13 @@ export function test(
   exercise: () => void | PromiseLike<void>
 ): void {
   const run = async (): Promise<TestResult> => {
-    const start = performance.now();
+    const start = performance.now()
     const error = await catchError(exercise)
     const runtimeMs = performance.now() - start
     const result = { runtimeMs, error }
     await getGlobalState().reporter.reportResult(description, result)
     return result
-  };
+  }
   submitTest({ description, run })
 }
 
@@ -37,5 +37,6 @@ export function test(
  * This is really just a wrapper around {@link test} that applies a common prefix string.
  */
 export function defineTestGroup(groupDescriptionPrefix: string): typeof test {
-  return (description, exercise) => test(groupDescriptionPrefix + description, exercise)
+  return (description, exercise) =>
+    test(groupDescriptionPrefix + description, exercise)
 }

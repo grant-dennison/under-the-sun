@@ -5,7 +5,9 @@ export function ensureError(e: unknown): Error {
   return new Error(JSON.stringify(e))
 }
 
-export async function catchError(run: () => void | PromiseLike<void>): Promise<Error | null> {
+export async function catchError(
+  run: () => void | PromiseLike<void>
+): Promise<Error | null> {
   try {
     await run()
     return null

@@ -1,6 +1,2 @@
-export { defineTestGroup, test } from "./define-test";
-export {
-  setTestReporter,
-  TestReporter
-} from "./reporter/test-reporter";
-
+export { defineTestGroup, test } from "./define-test"
+export { setTestReporter, TestReporter } from "./reporter/test-reporter"
