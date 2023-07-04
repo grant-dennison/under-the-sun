@@ -30,25 +30,27 @@ function parseCliArgsThrowing(argv: readonly string[]) {
         process.exit(2)
         return
       case "-i":
-      case "--ignore":
+      case "--ignore": {
         const i = argsArr.shift()
         if (!i) {
           throw new Error("-i/--ignore requires an argument")
         }
         args.ignoreRegex = new RegExp(i)
         return
+      }
       case "-m":
       case "--magic":
         args.magicGlobal = true
         return
       case "-p":
-      case "--pattern":
+      case "--pattern": {
         const p = argsArr.shift()
         if (!p) {
           throw new Error("-p/--pattern requires an argument")
         }
         args.testFilePathRegex1 = new RegExp(p)
         return
+      }
       case "-r":
       case "--require": {
         const r = argsArr.shift()

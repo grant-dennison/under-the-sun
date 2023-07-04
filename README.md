@@ -32,9 +32,18 @@ Execute tests in a directory via CLI:
 
 ```
 npx under-the-sun examples
-# or aliases
+# or with alias
 npx uts examples
 ```
+
+Execute a filtered set of tests via CLI:
+
+```
+npx under-the-sun examples my asynchronous
+```
+
+_In this case, only files in the `examples` directory matching the regex `my` will be considered._
+_Within those files, only tests whose descriptions match the regex `asynchronous` will be executed._
 
 ## Output
 

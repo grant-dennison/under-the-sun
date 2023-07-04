@@ -1,9 +1,9 @@
+import type { TestResult } from "./define-test"
 import { makeDefaultTestReporter } from "./reporter/default-test-reporter"
-import type { TestDefinition, TestResult } from "./define-test"
 import type { TestReporter } from "./reporter/test-reporter"
 import {
-  makeDefaultTestScheduler,
   TestScheduler,
+  makeDefaultTestScheduler,
 } from "./scheduler/test-scheduler"
 
 const where = (global ??

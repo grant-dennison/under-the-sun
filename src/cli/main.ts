@@ -26,7 +26,7 @@ async function loadRequiredModules() {
   }
 }
 
-async function configure() {
+function configure() {
   state.filterByDescription = args.testDescriptionRegex
   if (args.serial) {
     setTestScheduler(makeSerialTestScheduler())
@@ -44,7 +44,7 @@ function shouldIncludeFile(f: string): boolean {
 
 runAsync(async () => {
   await loadRequiredModules()
-  await configure()
+  configure()
   const success = await runTests(() =>
     walkFiles(
       {
