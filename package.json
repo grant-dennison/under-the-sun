@@ -1,6 +1,6 @@
 {
   "name": "under-the-sun",
-  "version": "2.0.0",
+  "version": "2.1.0",
   "description": "A nothing-new-under-the-sun testing framework.",
   "repository": {
     "type": "git",
@@ -24,6 +24,12 @@
   ],
   "main": "lib/index.js",
   "types": "lib/index.d.ts",
+  "exports": {
+    ".": {
+      "browser": "./lib/index.browser.js",
+      "node": "./lib/index.js"
+    }
+  },
   "bin": {
     "under-the-sun": "./lib/cli.js",
     "uts": "./lib/cli.js"
@@ -31,7 +37,7 @@
   "scripts": {
     "build": "run-p --aggregate-output build:cli build:lib",
     "build:cli": "esbuild src/cli/main.ts --external:.. --bundle --platform=node --minify --outfile=lib/cli.js",
-    "build:lib": "esbuild src/index.ts --bundle --platform=node --minify --outfile=lib/index.js",
+    "build:lib": "esbuild src/index.ts src/index.browser.ts --bundle --platform=node --minify --outdir=lib",
     "check-types": "tsc --noEmit",
     "clean": "node -p \"require('fs').rmSync('lib',{force:true,recursive:true})\"",
     "format": "prettier --no-semi --write .",

@@ -1,5 +1,9 @@
 # Under the Sun Changelog
 
+# v2.1.0
+
+- Nerf browser export (users shouldn't be using in browser, but bundlers don't know that)
+
 # v2.0.0
 
 - Add better test filtering capabilities
