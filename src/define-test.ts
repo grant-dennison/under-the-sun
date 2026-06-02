@@ -1,5 +1,5 @@
 import { performance } from "node:perf_hooks"
-import { getGlobalState } from "./global-state"
+import { getGlobalState } from "./state/state"
 import { submitTest } from "./run-tests"
 import { catchError } from "./utils/error"
 

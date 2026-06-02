@@ -4,6 +4,8 @@ A nothing-new-under-the-sun testing framework.
 
 This testing framework was inspired by the likes of [uvu](https://github.com/lukeed/uvu).
 It is intended to be as _**fast**_ as possible yet as _**simple**_ as possible.
+This library is best for test suites involving lots of I/O,
+as the default scheduler runs all tests concurrently (on a single thread).
 
 ## Installation
 
@@ -44,6 +46,12 @@ npx under-the-sun examples my asynchronous
 
 _In this case, only files in the `examples` directory matching the regex `my` will be considered._
 _Within those files, only tests whose descriptions match the regex `asynchronous` will be executed._
+
+Execute a test file directly:
+
+```
+node examples/my.test.js
+```
 
 ## Output
 
@@ -111,6 +119,11 @@ If this seems confusing, start by just running `uts` without any arguments.
 - `-s`/`--serial` - Run tests sequentially rather than in parallel (default).
   Note: This is only intended as a debugging mechanism for when your tests are failing intermittently in parallel.
   Tests will not run in deterministic order even with this flag.
+- `--print-imports` - Instead of running tests, print a list of imports to the test files.
+  Note: This flag changes the mode of operation and assumes
+  you will run the tests on your own later.
+  See the [baked imports](./examples/baked-imports/) and [Deno](./examples/deno/) examples.
+- `--import-base` - Change the base of import paths with `--print-imports`.
 
 ## API
 
@@ -130,7 +143,7 @@ That being said, here are some aims of this library:
 - **Fast** - This library pretty much just runs your JavaScript with as much `async` as possible. There's nothing fancy that could possibly slow things down. The only way make it _meaningfully_ faster would be to use some alternative runtime (e.g. native code, process-level multithreading, caching).
 - **Simple** - This library doesn't provide a large API, so you're not tightly coupling your code to it in a way you can't easily change later.
 
-I think this testing library is best for **pure JavaScript/TypeScript Node.js libraries**.
+I think this testing library is best for **pure JavaScript/TypeScript Node.js libraries with I/O-bound tests**.
 
 It's entirely possible someone has already written a library that does exactly what this does, better and with more features.
 I didn't find it though.

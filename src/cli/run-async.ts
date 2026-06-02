@@ -1,7 +1,7 @@
 export function runAsync(exercise: () => PromiseLike<void>) {
   exercise().then(
     () => {
-      process.exit(0)
+      // Do nothing.
     },
     (e) => {
       console.error(e)

@@ -1,6 +1,6 @@
 {
   "name": "under-the-sun",
-  "version": "2.1.1",
+  "version": "2.2.0",
   "description": "A nothing-new-under-the-sun testing framework.",
   "repository": {
     "type": "git",
@@ -28,7 +28,9 @@
     ".": {
       "browser": "./lib/index.browser.js",
       "node": "./lib/index.js"
-    }
+    },
+    "./configure/magic-globals": "./lib/configure/magic-globals.js",
+    "./configure/serial-scheduler": "./lib/configure/serial-scheduler.js"
   },
   "bin": {
     "under-the-sun": "./lib/cli.js",
@@ -37,16 +39,16 @@
   "scripts": {
     "build": "run-p --aggregate-output build:cli build:lib",
     "build:cli": "esbuild src/cli/main.ts --external:.. --bundle --platform=node --minify --outfile=lib/cli.js",
-    "build:lib": "esbuild src/index.ts src/index.browser.ts --bundle --platform=node --minify --outdir=lib",
+    "build:lib": "esbuild src/api/index.ts src/api/index.browser.ts src/api/configure/magic-globals.ts src/api/configure/serial-scheduler.ts --bundle --platform=node --minify --outdir=lib",
     "check-types": "tsc --noEmit",
     "clean": "node -p \"require('fs').rmSync('lib',{force:true,recursive:true})\"",
     "format": "prettier --no-semi --write .",
     "generate-declarations": "tsc --emitDeclarationOnly",
     "lint": "eslint src",
     "lint:fix": "eslint --fix src",
-    "preprepublish": "npm run clean",
-    "prepublish": "run-p --aggregate-output build test generate-declarations",
-    "test": "run-p --aggregate-output check-types test:unit",
+    "preparePublishFiles": "run-p --aggregate-output build test generate-declarations",
+    "prepublishOnly": "run-s clean preparePublishFiles",
+    "test": "run-p --aggregate-output check-types lint test:unit",
     "test:watch": "watchlist --eager src -- npm test",
     "test:unit": "node -r esbuild-register ./src/cli/main.ts ./src",
     "test:unit:watch": "watchlist --eager src -- npm run test:unit"
@@ -55,17 +57,17 @@
   "license": "MIT",
   "files": [
     "lib/*.js",
+    "lib/configure/*.js",
     "lib/define-test.d.ts",
     "lib/index.d.ts",
     "lib/reporter/test-reporter.d.ts",
     "magic-global.d.ts"
   ],
   "devDependencies": {
-    "@tsconfig/node16": "^1",
     "@types/node": "^16",
     "@typescript-eslint/eslint-plugin": "~5.33.1",
     "@typescript-eslint/parser": "~5.33.1",
-    "esbuild": "^0.15.5",
+    "esbuild": "^0.28",
     "esbuild-register": "^3.3.3",
     "eslint": "^8.22.0",
     "esm": "^3.2.25",

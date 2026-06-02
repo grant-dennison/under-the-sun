@@ -1,0 +1,10 @@
+{
+  "private": true,
+  "scripts": {
+    "pretest": "uts --print-imports > ./all-tests.mjs",
+    "test": "node ./all-tests.mjs"
+  },
+  "devDependencies": {
+    "under-the-sun": "file:../.."
+  }
+}

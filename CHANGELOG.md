@@ -1,5 +1,10 @@
 # Under the Sun Changelog
 
+# v2.2.0
+
+- Allow test files to be run directly
+- Introduce `--print-imports` to CLI for Deno compatibility
+
 # v2.1.1
 
 - Fix bad publish (types didn't get generated)

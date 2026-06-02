@@ -2,13 +2,10 @@ import { performance } from "perf_hooks"
 import type { TestReporter } from "./test-reporter"
 
 export function makeDefaultTestReporter(): TestReporter {
-  let start = performance.now()
+  const start = performance.now()
   let testsPassed = 0
   let testsFailed = 0
   return {
-    reportStart() {
-      start = performance.now()
-    },
     reportResult(testDescription, result) {
       if (!result.error) {
         testsPassed++

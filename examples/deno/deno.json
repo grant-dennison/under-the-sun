@@ -1,0 +1,14 @@
+{
+  "tasks": {
+    "write-all-tests": "deno --allow-read=. npm:under-the-sun --print-imports > all-tests.ts",
+    "test": {
+      "command": "deno all-tests.ts",
+      "dependencies": ["write-all-tests"]
+    }
+  },
+  "imports": {
+    "under-the-sun": "npm:under-the-sun"
+  },
+  "links": ["../.."],
+  "nodeModulesDir": "auto"
+}

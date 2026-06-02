@@ -7,14 +7,29 @@ export function parseCliArgs(argv: readonly string[]) {
   }
 }
 
+export type CliArgs = {
+  dir: string
+  mode: "dynamic" | "imports"
+  importBase: string
+  ignoreRegex: RegExp
+  testFilePathRegex1: RegExp
+  testFilePathRegex2: RegExp
+  testDescriptionRegex: RegExp
+  magicGlobals: boolean
+  modulesToLoad: string[]
+  serial: boolean
+}
+
 function parseCliArgsThrowing(argv: readonly string[]) {
-  const args = {
+  const args: CliArgs = {
     dir: ".",
+    mode: "dynamic",
+    importBase: ".",
     ignoreRegex: /(^|\/)(node_modules($|\/)|\.)/,
     testFilePathRegex1: /\.(spec|test)\.[mc]?[jt]sx?$/,
     testFilePathRegex2: /.*/,
     testDescriptionRegex: /.*/,
-    magicGlobal: false,
+    magicGlobals: false,
     modulesToLoad: [] as string[],
     serial: false,
   }
@@ -38,9 +53,20 @@ function parseCliArgsThrowing(argv: readonly string[]) {
         args.ignoreRegex = new RegExp(i)
         return
       }
+      case "--print-imports":
+        args.mode = "imports"
+        return
+      case "--import-base": {
+        const b = argsArr.shift()
+        if (!b) {
+          throw new Error("--import-base requires an argument")
+        }
+        args.importBase = b
+        return
+      }
       case "-m":
       case "--magic":
-        args.magicGlobal = true
+        args.magicGlobals = true
         return
       case "-p":
       case "--pattern": {
@@ -106,8 +132,10 @@ Parameters:
   <description filter>  Regex pattern for matching test descriptions
 
 Options:
-  --magic, -m     Make "test" available as a global        [boolean]
-  --pattern, -p   Regex pattern for matching test files     [string]
-  --require, -r   Preload the specified module at startup   [string]
-  --serial, -s    Run tests sequentially, not in parallel  [boolean]
+  --import-base   Change base of import paths with --print-imports      [string]
+  --magic, -m     Make "test" available as a global                    [boolean]
+  --pattern, -p   Regex pattern for matching test files                 [string]
+  --print-imports Print imports to test files instead of running       [boolean]
+  --require, -r   Preload the specified module at startup               [string]
+  --serial, -s    Run tests sequentially, not in parallel              [boolean]
 `

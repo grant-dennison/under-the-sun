@@ -12,15 +12,17 @@ export async function walkFiles(
 ) {
   const files = await fs.readdir(dir, { withFileTypes: true })
   await Promise.allSettled(
-    files.map((f) => {
-      const filePath = path.posix.join(dir, f.name)
-      if (ignorePattern.test(filePath)) {
-        return
-      }
-      if (f.isDirectory()) {
-        return walkFiles({ dir: filePath, ignorePattern }, handler)
-      }
-      return handler(filePath)
-    })
+    files
+      .sort((a, b) => a.name.localeCompare(b.name))
+      .map((f) => {
+        const filePath = path.posix.join(dir, f.name)
+        if (ignorePattern.test(filePath)) {
+          return
+        }
+        if (f.isDirectory()) {
+          return walkFiles({ dir: filePath, ignorePattern }, handler)
+        }
+        return handler(filePath)
+      })
   )
 }
